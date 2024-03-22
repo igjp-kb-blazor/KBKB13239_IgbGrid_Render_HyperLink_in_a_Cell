@@ -1,0 +1,42 @@
+﻿<div style="max-width: 800px; margin:auto; padding:24px;">
+    <IgbGrid Data="_products"
+             AutoGenerate="false"
+             PrimaryKey="@nameof(Product.Id)">
+
+        <IgbColumn Field="@nameof(Product.Id)" Header="ID" DataType="GridColumnDataType.Number" Width="10%" />
+        <IgbColumn Field="@nameof(Product.Name)" Header="製品名" Width="30%" />
+
+        @* 
+        BodyTemplate を使って、セル内のレンダリング内容をカスタマイズする例です。 
+        他の列の値も必要な場合は、以下のナレッジベース記事を参照してください。
+        https://kb.jp.infragistics.com/?p=12736
+        *@
+        <IgbColumn Field="@nameof(Product.URL)" Header="製品紹介ページ" Width="60%">
+            <BodyTemplate>
+                <a href="@context.Cell.Value" target="_blank">
+                    @context.Cell.Value
+                </a>
+            </BodyTemplate>
+        </IgbColumn>
+
+        @* 
+        以下は BodyTemplateScript を使って、wwwroot/script.js 内で定義された JavaScript によってセル内のレンダリング内容をカスタマイズする例です。 
+        この例を試すには、下記コメントアウトを解除し、且つ、wwwroot/index.html 内の、script.js を読み込む script タグのコメントアウトも解除してください。
+        *@
+
+        @* <IgbColumn Field="@nameof(Product.URL)" Header="製品紹介ページ" Width="60%" BodyTemplateScript="urlColumnTemplate" /> *@
+
+    </IgbGrid>
+</div>
+
+@code
+{
+    private record Product(int Id, string Name, string URL);
+
+    private readonly IEnumerable<Product> _products = [
+        new(1, "Ignite UI for Blazor", "https://jp.infragistics.com/products/ignite-ui-blazor"),
+    new(2, "Ignite UI for Angular", "https://jp.infragistics.com/products/ignite-ui-angular"),
+    new(3, "Ignite UI for React", "https://jp.infragistics.com/products/ignite-ui-react"),
+    new(4, "Ignite UI for Web Components", "https://jp.infragistics.com/products/ignite-ui-web-components"),
+    ];
+}
